@@ -1,5 +1,5 @@
-from src.web_api.web_object import WebObject
-from src.web_api.web_api_type import WebApiType
+from ..web_api.web_object import WebObject
+from ..web_api.web_api_type import WebApiType
 
 class WebInstruction:
     def __init__(self, input, params, output, obj, api_type, name, keep=True):

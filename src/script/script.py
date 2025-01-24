@@ -1,6 +1,6 @@
-from src.script.web_instruction import WebInstruction
-from src.script.statement import *
-from src.web_api.web_api_type import WebApiType
+from .web_instruction import WebInstruction
+from .statement import *
+from ..web_api.web_api_type import WebApiType
 
 
 class Script:

@@ -12,7 +12,7 @@ class WebObject():
     @classmethod
     def create(cls, name):
         if not cls.__grammar:
-            with open("src/web_api/grammar.json") as f:
+            with open("ipcrafter/fuzzers/fuzzorigin/src/web_api/grammar.json") as f:
                 print('[+] load web api grammar')
                 cls.__grammar = json.load(f)
                 # print(cls.__grammar)
@@ -93,7 +93,7 @@ class WebObject():
         return self.descendant
 
 def object_test():
-    with open("src/web_api/grammar.json") as f:
+    with open("ipcrafter/fuzzers/fuzzorigin/src/web_api/grammar.json") as f:
         grammar = json.load(f)
 
     done = list(grammar.keys())

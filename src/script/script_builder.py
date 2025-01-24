@@ -2,18 +2,18 @@ import random
 import json
 import secrets
 
-from src.script.script import Script
-from src.script.web_instruction import WebInstruction
-from src.script.js_instruction import JsInstruction
-from src.script.string_instruction import StrInstruction
-from src.script.statement import *
-from src.web_api.web_object import WebObject
-from src.web_api.web_api_type import WebApiType
-from src.web_api.tag_manager import TagManager
-from src.web_api.value_manager import ValueManager
-from src.js_api.js_api_type import JsApiType
-from src.script.pattern_builder import PatternBuilder
-from src.script.poc_builder import PocBuilder
+from .script import Script
+from .web_instruction import WebInstruction
+from .js_instruction import JsInstruction
+from .string_instruction import StrInstruction
+from .statement import *
+from ..web_api.web_object import WebObject
+from ..web_api.web_api_type import WebApiType
+from ..web_api.tag_manager import TagManager
+from ..web_api.value_manager import ValueManager
+from ..js_api.js_api_type import JsApiType
+from .pattern_builder import PatternBuilder
+from .poc_builder import PocBuilder
 
 
 class ScriptBuilder:
@@ -53,7 +53,7 @@ class ScriptBuilder:
         self.pattern_builder = PatternBuilder(self)
         self.poc_builder = PocBuilder(self)
 
-        self.base_url = "http://127.0.0.1:70"
+        # self.base_url = "http://127.0.0.1:70"
 
         self.last_var = None
         self.tmp_count = 0
@@ -64,16 +64,13 @@ class ScriptBuilder:
         self.WEIGHT_NAV = weight_nav
 
     def get_base_url(self, origin_idx):
-        if origin_idx < 10:
-            return  f"{self.base_url}0{origin_idx}"
-        else:
-            return  f"{self.base_url}{origin_idx}"
-    
+        return f"http://127.0.0.1:808{origin_idx}"
+
     def get_url(self, origin_idx, page_idx):
         return f"{self.get_base_url(origin_idx)}/{self.get_name(origin_idx, page_idx)}"
 
     def get_name(self, origin_idx, page_idx):
-        return f"{self.name}_{origin_idx}_{page_idx}.html"
+        return f"{self.name}_page-{page_idx+1}.html"
 
     def get_console_log(self, token=None):
         hex = secrets.token_hex(4)
@@ -85,6 +82,7 @@ class ScriptBuilder:
     def get_origin_violation(self):
         indent = "  "
         func = "function check_origin_violation(fetch, exec){\n"
+        func += indent + "console.log('sanitizer');\n"
         func += indent + "if(exec == null){\n" + indent * 2 + "return false;\n" + indent + "}\n"
         func += indent + "if(exec.includes(\"0.0.0.0\")){\n" + indent * 2 + "return false;\n" + indent + "}\n"
         func += indent + "if(fetch == exec){\n" + indent * 2 + "return false;\n" + indent + "}\n"
@@ -101,7 +99,7 @@ class ScriptBuilder:
         sanitizer = f"var _origin_fetch_ = \"{self.get_base_url(self.origin_idx)}\";\n"
         sanitizer += f"var _origin_exec_ = location.origin;\n"
         sanitizer += "if (check_origin_violation(_origin_fetch_, _origin_exec_)) {\n  " + console_log + "\n}"
-        
+
         return sanitizer
 
     def get_javascript_console_log(self, token=None):
@@ -117,7 +115,7 @@ class ScriptBuilder:
             else:
                 x = random.randint(1, self.origins - 1)
             return self.get_url(x, y)
-        
+
 
     def lift(self, guard=False):
         return self.script.lift(guard)
@@ -203,10 +201,6 @@ class ScriptBuilder:
         name = f"{self.function_prefix}{self.function_idx}"
         self.function_idx += 1
         return name
-
-    def get_property_candidate(self, obj):
-        instance = WebObject.create(obj)
-        return instance.get_property_candidate()
 
     def get_property_candidate(self, obj):
         instance = WebObject.create(obj)
@@ -306,7 +300,7 @@ class ScriptBuilder:
         elif obj == "ConsoleLogString":
             return self.get_console_log()
         elif obj == "Markup":
-            value = f'<script>console.log({self.get_console_log()})<\/script>'
+            value = f'<script>console.log({self.get_console_log()})<\\/script>'
             return f"'{value}'"
         elif obj == "JavascriptConsoleString":
             return f"'{self.get_javascript_console_log()}'"
@@ -316,7 +310,7 @@ class ScriptBuilder:
         elif obj == "ScriptString":
             value = self.get_script_string()
             return f"'{value}'"
-    
+
         else:
             instance = WebObject.create(obj)
             if instance is not None:
@@ -765,7 +759,7 @@ def main():
     print(sb.lift(guard=True))
     # print(sb.get_sanitizer())
     # print(sb.get_origin_violation())
-    
+
 
     # print(sb.get_nav_event_candidate("HTMLBodyElement"))
     # print(sb.get_event_candidate("HTMLBodyElement"))

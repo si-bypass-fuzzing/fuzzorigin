@@ -1,12 +1,12 @@
 import random
 import os
 
-from src.script.testcase import Testcase
-from src.script.web_page import WebPage
-from src.script.script import Script
-from src.script.script_builder import ScriptBuilder
+from .testcase import Testcase
+from .web_page import WebPage
+from .script import Script
+from .script_builder import ScriptBuilder
 
-from tools.domato import generator
+from ....fuzzorigin.tools.domato import generator
 
 
 class TestcaseGenerator:
@@ -78,7 +78,7 @@ class TestcaseGenerator:
                 }
                 """
         return foo_bar
-        
+
 
     def generate(self, name):
         tc = Testcase(name, self.origins, self.pages)
@@ -89,17 +89,15 @@ class TestcaseGenerator:
         return tc
 
 
-def get_base_url(base_url, origin_idx):
-    if origin_idx < 10:
-        return  f"{base_url}0{origin_idx}"
-    else:
-        return  f"{base_url}{origin_idx}"
 
-def get_url(name, base_url, origin_idx, page_idx):
-    return f"{get_base_url(base_url, origin_idx)}/{get_name(name, origin_idx, page_idx)}"
+def get_base_url(origin_idx):
+    return f"http://127.0.0.1:808{origin_idx}"
+
+def get_url(name, origin_idx, page_idx):
+    return f"{get_base_url(origin_idx)}/{get_name(name, origin_idx, page_idx)}"
 
 def get_name(name, origin_idx, page_idx):
-    return f"{name}_{origin_idx}_{page_idx}.html"
+    return f"{name}_page-{page_idx+1}.html"
 
 def to_server(tc):
     base = "new_servers/data"

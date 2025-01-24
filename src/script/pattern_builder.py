@@ -1,10 +1,10 @@
 import random
 
-from src.js_api.js_api_type import JsApiType
-from src.script.web_instruction import WebInstruction
-from src.script.statement import *
-from src.web_api.web_object import WebObject
-from src.web_api.web_api_type import WebApiType
+from ..js_api.js_api_type import JsApiType
+from .web_instruction import WebInstruction
+from .statement import *
+from ..web_api.web_object import WebObject
+from ..web_api.web_api_type import WebApiType
 
 
 class PatternBuilder:
@@ -186,7 +186,7 @@ class PatternBuilder:
 
 
 def main():
-    from src.script.script_builder import ScriptBuilder
+    from .script_builder import ScriptBuilder
     sb = ScriptBuilder(1, 1)
     pb = PatternBuilder(sb)
 

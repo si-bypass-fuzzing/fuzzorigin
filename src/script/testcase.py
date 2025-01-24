@@ -1,4 +1,4 @@
-from src.script.web_page import WebPage
+from .web_page import WebPage
 
 class Testcase:
     def __init__(self, name, origins, pages):

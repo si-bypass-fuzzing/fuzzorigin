@@ -1,4 +1,4 @@
-from src.js_api.js_api_type import JsApiType
+from ..js_api.js_api_type import JsApiType
 
 
 class JsInstruction:

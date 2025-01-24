@@ -12,7 +12,7 @@ from src.script.testcase import Testcase
 from src.executor.chrome_handler import ChromeHandler
 from src.executor.firefox_handler import FirefoxHandler
 from src.executor.edge_handler import EdgeHandler
-from src.executor.safari_handler import SafariHandler
+# from src.executor.safari_handler import SafariHandler
 from src.fuzzer.exception import TestcaseTimeout
 
 fuzzer = None

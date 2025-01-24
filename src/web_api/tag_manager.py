@@ -7,7 +7,7 @@ class TagManager:
     @classmethod
     def init(cls):
         if cls.__grammar is None:
-            with open("src/web_api/tag.json") as f:
+            with open("ipcrafter/fuzzers/fuzzorigin/src/web_api/tag.json") as f:
                 cls.__grammar = json.load(f)
 
     @classmethod

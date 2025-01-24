@@ -23,7 +23,7 @@ import re
 import random
 import sys
 
-from tools.domato.grammar import Grammar
+from .grammar import Grammar
 
 _N_MAIN_LINES = 100
 _N_EVENTHANDLER_LINES = 10
